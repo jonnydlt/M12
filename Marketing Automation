@@ -1,0 +1,111 @@
+---
+title: "Marketing Automation"
+subtitle: "Revealjs Presentation"
+author: "Jonny De La Torre"
+institute: "IBM6400, Cal Poly Pomona"
+date: "`r Sys.Date()`"
+format:
+  revealjs:
+    theme: serif
+    width: 1600
+    height: 900
+    footer: Marketing Automation
+    transition: slide
+    transition-speed: default
+    incremental: false
+    toc: true
+    toc-depth: 2       # show H2 (Prompt/Response) only
+    slide-number: true
+    scrollable: true
+    smaller: true
+    code-fold: false
+    code-overflow: wrap
+    number-sections: false
+    number-depth: 5
+    embed-resources: true
+    css: styles.css
+editor: visual
+execute:
+  echo: true
+  freeze: auto
+---
+
+## Prompt 1
+
+**1.** In Step 1, Dr. Albert Rapp showed you how to create an interactive dashboard with Quarto. *What did you like about the Quarto-based dashboard compared with other options introduced in this class previously?*
+
+------------------------------------------------------------------------
+
+## Response 1
+
+Unlike Shiny, Quarto dashboards require **no custom server**—you write plain R/JS/Julia chunks and get cards that hide code by default. The `::: { .dashboard } … :::` containers give straightforward layout control without wrestling with UI functions. Embedding hover tooltips via **ggiraph** felt more stable than past attempts with Plotly, and the **Sass-based theming** let me match Cal Poly Pomona’s colors more cleanly than previous Bootstrap overrides.
+
+Additionally, Quarto’s native support for **multi-language** code (R, Python, Julia) means you can prototype in the best tool for each visualization without context switching. Its **Git-friendly output** makes version control seamless—diffs highlight content changes, not rendering quirks. Finally, the **static HTML** output loads faster for most users while still offering interactivity where it matters, avoiding the maintenance overhead of a full Shiny server.
+
+------------------------------------------------------------------------
+
+## Prompt 2
+
+**2.** In Step 2, you learned how to set parameterized reporting in Quarto. *Explain what parameterized reporting is and how it works. Do you see its application in your current or past jobs (or future jobs)?*
+
+------------------------------------------------------------------------
+
+## Response 2
+
+1.  **What it is:** Defining variables (e.g. `params: country: "Afghanistan"`) in the YAML and referencing `params$country` in code/text.
+2.  **How it works:**
+    -   Call `quarto::quarto_render("report.qmd", execute_params = list(country="Brazil"))`.
+    -   Quarto recompiles, substituting every `params$country` with "Brazil".
+    -   Loop over a tibble of outputs to automate hundreds of customized reports.
+3.  **Real-world fit:** At Edison, I could automate safety compliance reports per region without copy–pasting slides—cutting manual edits each month.
+
+Beyond compliance, parameterized reports can drive **personalized marketing** decks: each sales manager sees their territory metrics, segment performance, and campaign ROI. By combining with a **schedule** (e.g., weekly CI pipeline), I could ensure stakeholders receive up-to-date insights automatically, reducing manual handoffs and improving decision speed.
+
+------------------------------------------------------------------------
+
+## Prompt 3
+
+**3.** In Step 3, Sean Nguyen talks about avoiding dashboard fatigue in his talk, “Beyond Dashboards: Dynamic Data Storytelling with Python, R, and Quarto Emails.” *What are his suggestions for making your dashboard effective and keeping colleagues engaged?*
+
+------------------------------------------------------------------------
+
+## Response 3
+
+-   **Push vs Pull:** Email bite-sized insights instead of expecting users to hunt for dashboards.
+-   **Personalization:** Use YAML email blocks (e.g. `format: email: subject: "Monthly Conversions for {params$region}"`).
+-   **Conditional logic:** Only include charts/tables when thresholds are met (e.g., `if new_leads > 50`).
+-   **Embedded CTAs:** Provide direct links to the full dashboard.
+-   **Scheduling:** Automate delivery (hourly/daily) via Posit Connect so updates land in inboxes, not just on a dashboard.
+
+He also emphasizes **narrative flow**: use headings and brief commentary to guide readers through the key takeaways. **Progressive disclosure**—start with high-level KPIs, then allow links to drill-down sections—keeps the audience from feeling overwhelmed. Finally, **mobile-friendly layouts** and **micro-interactions** (e.g., hover tooltips) maintain engagement on any device.
+
+------------------------------------------------------------------------
+
+## Prompt 4
+
+**4.** Programming is all about efficiency and reducing repetition. *Share some challenges you encountered learning the Module’s tools.*
+
+------------------------------------------------------------------------
+
+## Response 4
+
+-   **YAML indentation:** Small spacing errors in parameters/formatting cost more time than R bugs.
+-   **CSS/Sass:** Debugging compiled CSS is steep without front-end experience.
+-   **`freeze: auto`:** Caching sometimes hid my changes—I had to clear the `_freeze/` folder repeatedly.
+-   **Email quirks:** Embedding HTML tables in Outlook-style emails broke formatting—lots of trial and error.
+
+I also ran into **dependency versioning** issues: some Quarto themes required newer Pandoc builds, so CI pipelines needed explicit version management. Learning **revealjs-specific options** (e.g., `incremental`, `number-sections`) involved trial and error, since the docs cover dozens of flags. Getting **multi-page exports** right taught me the value of small, incremental tests before full renders.
+
+------------------------------------------------------------------------
+
+## Prompt 5
+
+**5.** This was the last module. *Share your thoughts on Quarto, literate programming, and reproducible reports, and describe any plans for using this knowledge in the AI era.*
+
+------------------------------------------------------------------------
+
+## Response 5
+
+**Reflection:** Quarto unifies analysis, reporting, and deployment—no more juggling R Markdown, Shiny, and separate web tools. Literate programming feels natural: code and narrative live side by side, so future me (and teammates) can follow the logic without extra docs. The built-in support for **citations**, **cross-references**, and **parametrized snippets** cements reproducibility.
+
+**AI-Era plan:** - Combine Quarto with ChatGPT plugins to auto-draft narrative around new plots. - Use parameterized reports + an LLM to generate user-specific executive summaries, then push via email. - Leverage AI to flag data outliers before rendering so the narrative always highlights what matters. - Integrate Quarto with **CI/CD** (GitHub Actions) and **data versioning** (DVC) to ensure every report build is traceable end-to-end. - Explore generative AI for **automated EDA**, letting the system suggest chart types, narrative bullets, and anomaly calls out-of-the-box. \`\`\`
